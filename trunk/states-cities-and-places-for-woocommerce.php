@@ -16,7 +16,7 @@
  * Requires at least: 4.0
  * Tested up to: 5.9
  * WC requires at least: 3.0.x
- * WC tested up to: 6.2
+ * WC tested up to: 10.5.3
  */
 
 /**
@@ -52,6 +52,15 @@ if ( (is_multisite() && array_key_exists('woocommerce/woocommerce.php', get_site
             $this->init_fields();
             $this->init_states();
             $this->init_places();
+            add_action('before_woocommerce_init', function () {
+                if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+                    \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+                        'custom_order_tables',
+                        __FILE__,
+                        true
+                    );
+                }
+            });
         }
 
         /**
